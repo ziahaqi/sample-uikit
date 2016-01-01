@@ -1,46 +1,50 @@
 package midtrans.mysamplesdk;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v7.app.AppCompatActivity;
 
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
-import com.midtrans.sdk.corekit.core.UIKitCustomSetting;
-import com.midtrans.sdk.corekit.models.BankType;
+import com.midtrans.sdk.corekit.core.themes.CustomColorTheme;
 import com.midtrans.sdk.corekit.models.BillInfoModel;
-import com.midtrans.sdk.corekit.models.CardTokenRequest;
 import com.midtrans.sdk.corekit.models.CustomerDetails;
-import com.midtrans.sdk.corekit.models.ExpiryModel;
 import com.midtrans.sdk.corekit.models.ItemDetails;
 import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
-import com.midtrans.sdk.corekit.utilities.Utils;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements TransactionFinishedCallback{
+public class MainActivity extends AppCompatActivity implements TransactionFinishedCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // SDK initiation for UIflow
-        SdkUIFlowBuilder.init(this, "VT-client-E4f1bsi1LpL1p5cF", "https://rakawm-snap.herokuapp.com/", this)
+
+        SdkUIFlowBuilder.init(this, "CLIENT_KEY", "MERCHANT_BASE_URL" , this)
                 .enableLog(true)
+                .setColorTheme(new CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
+
                 .useBuiltInTokenStorage(false)
                 .buildSDK();
 
+
+        MidtransSDK midtransSDK = MidtransSDK.getInstance();
+
+
         // Create new Transaction Request
         TransactionRequest transactionRequestNew = new
-                TransactionRequest(System.currentTimeMillis()+"", 6000);
+                TransactionRequest(System.currentTimeMillis() + "", 6000);
 
         //define customer detail (mandatory for coreflow)
         CustomerDetails mCustomerDetails = new CustomerDetails();
         mCustomerDetails.setPhone("624234234234");
+
         mCustomerDetails.setFirstName("sample full name");
+
         mCustomerDetails.setEmail("mail@mail.com");
         transactionRequestNew.setCustomerDetails(mCustomerDetails);
 
@@ -64,10 +68,10 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         // noted : channel migs is needed if bank type is BCA, BRI or MyBank
         CreditCard creditCard = new CreditCard();
 
-        String  cardClickType = getString(R.string.card_click_type_two_click);
+        String cardClickType = getString(R.string.card_click_type_two_click);
         creditCard.setSaveCard(true);
+        creditCard.setSecure(false);
         transactionRequestNew.setCreditCard(creditCard);
-
 
 
         transactionRequestNew.setCardPaymentInfo(cardClickType, true);
