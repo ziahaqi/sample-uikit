@@ -24,7 +24,9 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         setContentView(R.layout.activity_main);
         // SDK initiation for UIflow
 
-        SdkUIFlowBuilder.init(this, "CLIENT_KEY", "MERCHANT_BASE_URL" , this)
+        String client_key = "vt-clieny_key";
+        String base_url = "https://sample-merhcant-url.com";
+        SdkUIFlowBuilder.init(this, client_key, base_url, this)
                 .enableLog(true)
                 .setColorTheme(new CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
 
