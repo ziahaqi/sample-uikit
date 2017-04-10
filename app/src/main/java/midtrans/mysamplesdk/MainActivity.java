@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         // SDK initiation for UIflow
         SdkUIFlowBuilder.init(this, "VT-client-E4f1bsi1LpL1p5cF", "https://rakawm-snap.herokuapp.com/", this)
                 .enableLog(true)
+                .useBuiltInTokenStorage(false)
                 .buildSDK();
-
 
         // Create new Transaction Request
         TransactionRequest transactionRequestNew = new
@@ -64,8 +64,7 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         // noted : channel migs is needed if bank type is BCA, BRI or MyBank
         CreditCard creditCard = new CreditCard();
 
-        String
-        cardClickType = getString(R.string.card_click_type_two_click);
+        String  cardClickType = getString(R.string.card_click_type_two_click);
         creditCard.setSaveCard(true);
         transactionRequestNew.setCreditCard(creditCard);
 
