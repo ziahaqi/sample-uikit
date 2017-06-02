@@ -29,13 +29,8 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         SdkUIFlowBuilder.init(this, client_key, base_url, this)
                 .enableLog(true)
                 .setColorTheme(new CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
-
                 .useBuiltInTokenStorage(false)
                 .buildSDK();
-
-
-        MidtransSDK midtransSDK = MidtransSDK.getInstance();
-
 
         // Create new Transaction Request
         TransactionRequest transactionRequestNew = new
