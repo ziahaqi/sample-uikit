@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
 
     private void bindViews() {
         buttonUiKit = (Button) findViewById(R.id.button_uikit);
+        buttonDirectCreditCard = (Button) findViewById(R.id.button_direct_credit_card);
         buttonDirectBcaVa = (Button) findViewById(R.id.button_direct_bca_va);
         buttonDirectMandiriVa = (Button) findViewById(R.id.button_direct_mandiri_va);
         buttonDirectBniVa = (Button) findViewById(R.id.button_direct_bni_va);
