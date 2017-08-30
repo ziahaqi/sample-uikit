@@ -14,6 +14,9 @@ import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements TransactionFinishedCallback {
@@ -23,14 +26,7 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // SDK initiation for UIflow
-
-        String client_key = "vt-clieny_key";
-        String base_url = "https://sample-merhcant-url.com";
-        SdkUIFlowBuilder.init(this, client_key, base_url, this)
-                .enableLog(true)
-                .setColorTheme(new CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
-                .useBuiltInTokenStorage(false)
-                .buildSDK();
+        initMidtransSdk();
 
         // Create new Transaction Request
         TransactionRequest transactionRequestNew = new
@@ -75,6 +71,17 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
 
         MidtransSDK.getInstance().setTransactionRequest(transactionRequestNew);
         MidtransSDK.getInstance().startPaymentUiFlow(this);
+    }
+
+    private void initMidtransSdk() {
+        String client_key = SdkConfig.MERCHANT_CLIENT_KEY;
+        String base_url = SdkConfig.MERCHANT_BASE_URL;
+
+        SdkUIFlowBuilder.init(this, client_key, base_url, this)
+                .enableLog(true)
+                .setColorTheme(new CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
+                .useBuiltInTokenStorage(false)
+                .buildSDK();
     }
 
     @Override
