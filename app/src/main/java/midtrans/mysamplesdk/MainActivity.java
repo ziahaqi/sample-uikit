@@ -30,34 +30,9 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         bindViews();
         // SDK initiation for UIflow
         initMidtransSdk();
+        initActionButtons();
     }
 
-    private void bindViews() {
-        buttonUiKit = (Button) findViewById(R.id.button_uikit);
-        buttonDirectCreditCard = (Button) findViewById(R.id.button_direct_credit_card);
-        buttonDirectBcaVa = (Button) findViewById(R.id.button_direct_bca_va);
-        buttonDirectMandiriVa = (Button) findViewById(R.id.button_direct_mandiri_va);
-        buttonDirectBniVa = (Button) findViewById(R.id.button_direct_bni_va);
-        buttonDirectPermataVa = (Button) findViewById(R.id.button_direct_permata_va);
-        buttonDirectAtmBersamaVa = (Button) findViewById(R.id.button_direct_atm_bersama_va);
-
-        buttonUiKit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
-                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this);
-            }
-        });
-
-        buttonDirectCreditCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
-                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.CREDIT_CARD);
-            }
-        });
-    }
 
     private TransactionRequest initTransactionRequest() {
         // Create new Transaction Request
@@ -120,5 +95,78 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
     @Override
     public void onTransactionFinished(TransactionResult transactionResult) {
         Toast.makeText(this, "sdk callback", Toast.LENGTH_SHORT).show();
+    }
+
+    private void bindViews() {
+        buttonUiKit = (Button) findViewById(R.id.button_uikit);
+        buttonDirectCreditCard = (Button) findViewById(R.id.button_direct_credit_card);
+        buttonDirectBcaVa = (Button) findViewById(R.id.button_direct_bca_va);
+        buttonDirectMandiriVa = (Button) findViewById(R.id.button_direct_mandiri_va);
+        buttonDirectBniVa = (Button) findViewById(R.id.button_direct_bni_va);
+        buttonDirectPermataVa = (Button) findViewById(R.id.button_direct_permata_va);
+        buttonDirectAtmBersamaVa = (Button) findViewById(R.id.button_direct_atm_bersama_va);
+
+    }
+
+    private void initActionButtons() {
+        buttonUiKit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
+                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this);
+            }
+        });
+
+        buttonDirectCreditCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
+                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.CREDIT_CARD);
+            }
+        });
+
+
+        buttonDirectBcaVa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
+                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.BANK_TRANSFER_BCA);
+            }
+        });
+
+
+        buttonDirectBniVa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
+                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.BANK_TRANSFER_BNI);
+            }
+        });
+
+        buttonDirectMandiriVa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
+                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.BANK_TRANSFER_MANDIRI);
+            }
+        });
+
+
+        buttonDirectPermataVa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
+                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.BANK_TRANSFER_PERMATA);
+            }
+        });
+
+        buttonDirectAtmBersamaVa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
+                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.BANK_TRANSFER_OTHER);
+            }
+        });
     }
 }
