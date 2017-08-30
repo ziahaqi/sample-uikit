@@ -70,6 +70,12 @@
         android:text="permata va payment" />
 
     <Button
+        android:id="@+id/button_direct_bni_va"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="permata va payment" />
+
+    <Button
         android:id="@+id/button_direct_atm_bersama_va"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -40,13 +40,14 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile 'com.android.support:appcompat-v7:25.2.0'
     testCompile 'junit:junit:4.12'
-    compile 'com.midtrans:uikit:1.7.5'
 
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
-    testCompile 'junit:junit:4.12'
+    //--add midtrans sdk--
+
+    //for production app you need to compile sdk production `com.midtrans:uikit:x.x.x`
+//    compile 'com.midtrans:uikit:1.9.3' //  sample compiling production or
+    compile 'com.midtrans:uikit:1.9.3-SANDBOX' // sample compiling sandbox
+
+
 }
