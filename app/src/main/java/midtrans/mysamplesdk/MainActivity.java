@@ -14,9 +14,6 @@ import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements TransactionFinishedCallback {
@@ -75,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
 
     private void initMidtransSdk() {
         String client_key = SdkConfig.MERCHANT_CLIENT_KEY;
-        String base_url = SdkConfig.MERCHANT_BASE_URL;
+        String base_url = SdkConfig.MERCHANT_BASE_CHECKOUT_URL;
 
         SdkUIFlowBuilder.init(this, client_key, base_url, this)
                 .enableLog(true)
