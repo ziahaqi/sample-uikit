@@ -1,1 +1,1 @@
-# this sample implementation of midtrans uikit sdk
+# this is Sample implementation of midtrans uikit sdk
