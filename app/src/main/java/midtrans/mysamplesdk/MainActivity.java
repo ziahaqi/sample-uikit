@@ -11,6 +11,7 @@ import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.corekit.core.PaymentMethod;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
 import com.midtrans.sdk.corekit.core.themes.CustomColorTheme;
+import com.midtrans.sdk.corekit.models.BankType;
 import com.midtrans.sdk.corekit.models.CustomerDetails;
 import com.midtrans.sdk.corekit.models.ItemDetails;
 import com.midtrans.sdk.corekit.models.snap.CreditCard;
@@ -18,6 +19,7 @@ import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TransactionFinishedCallback {
     private Button buttonUiKit, buttonDirectCreditCard, buttonDirectBcaVa, buttonDirectMandiriVa,
@@ -59,13 +61,13 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         // Create creditcard options for payment
         CreditCard creditCard = new CreditCard();
 
-        creditCard.setSaveCard(true); // when using one/two click set to true and if normal set to  false
-        creditCard.setSecure(false); // when using one click must be true, for normal and two click (optional)
+        creditCard.setSaveCard(false); // when using one/two click set to true and if normal set to  false
+//        creditCard.setAuthentication(CreditCard.RBA);
+        creditCard.setSecure(true); // when using one click must be true, for normal and two click (optional)
 
         // noted !! : channel migs is needed if bank type is BCA, BRI or MyBank
-//        creditCard.setChannel(CreditCard.MIGS); //set channel migs
-//        creditCard.setChannel(BankType.BCA); //set spesific acquiring bank
-
+        creditCard.setChannel(CreditCard.MIGS); //set channel migs
+        creditCard.setBank(BankType.MAYBANK); //set spesific acquiring bank
         transactionRequestNew.setCreditCard(creditCard);
 
         return transactionRequestNew;
