@@ -19,7 +19,6 @@ import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TransactionFinishedCallback {
     private Button buttonUiKit, buttonDirectCreditCard, buttonDirectBcaVa, buttonDirectMandiriVa,
@@ -67,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
 
         // noted !! : channel migs is needed if bank type is BCA, BRI or MyBank
         creditCard.setChannel(CreditCard.MIGS); //set channel migs
-        creditCard.setBank(BankType.MAYBANK); //set spesific acquiring bank
+        creditCard.setBank(BankType.BNI); //set spesific acquiring bank
+
         transactionRequestNew.setCreditCard(creditCard);
 
         return transactionRequestNew;
@@ -87,16 +87,40 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         String client_key = SdkConfig.MERCHANT_CLIENT_KEY;
         String base_url = SdkConfig.MERCHANT_BASE_CHECKOUT_URL;
 
-        SdkUIFlowBuilder.init(this, client_key, base_url, this)
+        SdkUIFlowBuilder.init()
+                .setClientKey(client_key) // client_key is mandatory
+                .setContext(this) // context is mandatory
+                .setTransactionFinishedCallback(this) // set transaction finish callback (sdk callback)
+                .setMerchantBaseUrl(base_url) //set merchant url
                 .enableLog(true) // enable sdk log
                 .setColorTheme(new CustomColorTheme("#FFE51255", "#B61548", "#FFE51255")) // will replace theme on snap theme on MAP
-                .useBuiltInTokenStorage(true)  // set to false if you want to your own token storage (just for two click)
                 .buildSDK();
     }
 
     @Override
-    public void onTransactionFinished(TransactionResult transactionResult) {
-        Toast.makeText(this, "sdk callback", Toast.LENGTH_SHORT).show();
+    public void onTransactionFinished(TransactionResult result) {
+        if (result.getResponse() != null) {
+            switch (result.getStatus()) {
+                case TransactionResult.STATUS_SUCCESS:
+                    Toast.makeText(this, "Transaction Finished. ID: " + result.getResponse().getTransactionId(), Toast.LENGTH_LONG).show();
+                    break;
+                case TransactionResult.STATUS_PENDING:
+                    Toast.makeText(this, "Transaction Pending. ID: " + result.getResponse().getTransactionId(), Toast.LENGTH_LONG).show();
+                    break;
+                case TransactionResult.STATUS_FAILED:
+                    Toast.makeText(this, "Transaction Failed. ID: " + result.getResponse().getTransactionId() + ". Message: " + result.getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+                    break;
+            }
+            result.getResponse().getValidationMessages();
+        } else if (result.isTransactionCanceled()) {
+            Toast.makeText(this, "Transaction Canceled", Toast.LENGTH_LONG).show();
+        } else {
+            if (result.getStatus().equalsIgnoreCase(TransactionResult.STATUS_INVALID)) {
+                Toast.makeText(this, "Transaction Invalid", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Transaction Finished with failure.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void bindViews() {
@@ -167,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
             @Override
             public void onClick(View v) {
                 MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
-                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.BANK_TRANSFER_OTHER);
+                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.BCA_KLIKPAY);
             }
         });
     }
