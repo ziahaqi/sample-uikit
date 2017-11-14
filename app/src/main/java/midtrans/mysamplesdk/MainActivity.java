@@ -61,12 +61,15 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         CreditCard creditCard = new CreditCard();
 
         creditCard.setSaveCard(false); // when using one/two click set to true and if normal set to  false
-//        creditCard.setAuthentication(CreditCard.RBA);
-        creditCard.setSecure(true); // when using one click must be true, for normal and two click (optional)
+
+//        this methode deprecated use setAuthentication instead
+//        creditCard.setSecure(true); // when using one click must be true, for normal and two click (optional)
+
+        creditCard.setAuthentication(CreditCard.AUTHENTICATION_TYPE_3DS);
 
         // noted !! : channel migs is needed if bank type is BCA, BRI or MyBank
-        creditCard.setChannel(CreditCard.MIGS); //set channel migs
-        creditCard.setBank(BankType.BNI); //set spesific acquiring bank
+//        creditCard.setChannel(CreditCard.MIGS); //set channel migs
+        creditCard.setBank(BankType.BCA); //set spesific acquiring bank
 
         transactionRequestNew.setCreditCard(creditCard);
 

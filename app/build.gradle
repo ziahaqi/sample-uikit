@@ -47,7 +47,7 @@ dependencies {
 
     //for production app you need to compile sdk production `com.midtrans:uikit:x.x.x`
 //    compile 'com.midtrans:uikit:1.9.3' //  sample compiling production or
-    compile 'com.midtrans:uikit:1.10.0-SANDBOX' // sample compiling sandbox
+    compile 'com.midtrans:uikit:1.11.0' // sample compiling sandbox
 
 
 }
