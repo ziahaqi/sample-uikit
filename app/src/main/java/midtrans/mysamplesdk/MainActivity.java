@@ -13,8 +13,6 @@ import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.corekit.core.PaymentMethod;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
 import com.midtrans.sdk.corekit.core.themes.CustomColorTheme;
-import com.midtrans.sdk.corekit.models.BankType;
-import com.midtrans.sdk.corekit.models.CustomerDetails;
 import com.midtrans.sdk.corekit.models.ItemDetails;
 import com.midtrans.sdk.corekit.models.UserAddress;
 import com.midtrans.sdk.corekit.models.UserDetail;
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
     private TransactionRequest initTransactionRequest() {
         // Create new Transaction Request
         TransactionRequest transactionRequestNew = new
-                TransactionRequest(System.currentTimeMillis() + "", 6000);
+                TransactionRequest(String.valueOf(System.currentTimeMillis()), 6000);
 
         //set customer details
         initCustomerDetails();
@@ -65,17 +63,16 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         // Create creditcard options for payment
         CreditCard creditCard = new CreditCard();
 
-        creditCard.setSaveCard(false); // when using one/two click set to true and if normal set to  false
+        creditCard.setSaveCard(true); // when using one/two click set to true and if normal set to  false
 
 //        this methode deprecated use setAuthentication instead
 //        creditCard.setSecure(true); // when using one click must be true, for normal and two click (optional)
 
         creditCard.setAuthentication(CreditCard.AUTHENTICATION_TYPE_3DS);
 
-        // noted !! : channel migs is needed if bank type is BCA, BRI or MyBank
+//         noted !! : channel migs is needed if bank type is BCA, BRI or MyBank
 //        creditCard.setChannel(CreditCard.MIGS); //set channel migs
-        creditCard.setBank(BankType.BCA); //set spesific acquiring bank
-
+//        creditCard.setBank(BankType.BCA); //set spesific acquiring bank for migs channel
         transactionRequestNew.setCreditCard(creditCard);
 
         return transactionRequestNew;
@@ -85,24 +82,32 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
 
         //define customer detail
 
-        UserDetail userDetail = new UserDetail();
-        userDetail.setUserFullName("user fullname");
-        userDetail.setEmail("mail@example.com");
-        userDetail.setPhoneNumber("012345678");
-        userDetail.setUserId(UUID.randomUUID().toString());
+        UserDetail userDetail;
 
-        List<UserAddress> userAddresses = new ArrayList<>();
+        userDetail = LocalDataHandler.readObject("user_details", UserDetail.class);
 
-        UserAddress userAddress = new UserAddress();
-        userAddress.setAddress("alamat");
-        userAddress.setCity("jakarta");
-        userAddress.setCountry("IDN");
-        userAddress.setZipcode("72168");
-        userAddress.setAddressType(Constants.ADDRESS_TYPE_BOTH);
-        userAddresses.add(userAddress);
+        if (userDetail == null) {
+            userDetail = new UserDetail();
 
-        userDetail.setUserAddresses(new ArrayList<>(userAddresses));
-        LocalDataHandler.saveObject("user_details", userDetail);
+            userDetail.setUserFullName("user fullname");
+            userDetail.setEmail("mail@example.com");
+            userDetail.setPhoneNumber("012345678");
+            userDetail.setUserId(UUID.randomUUID().toString());
+
+            List<UserAddress> userAddresses = new ArrayList<>();
+
+            UserAddress userAddress = new UserAddress();
+            userAddress.setAddress("alamat");
+            userAddress.setCity("jakarta");
+            userAddress.setCountry("IDN");
+            userAddress.setZipcode("72168");
+            userAddress.setAddressType(Constants.ADDRESS_TYPE_BOTH);
+            userAddresses.add(userAddress);
+
+            userDetail.setUserAddresses(new ArrayList<>(userAddresses));
+
+            LocalDataHandler.saveObject("user_details", userDetail);
+        }
 
     }
 
