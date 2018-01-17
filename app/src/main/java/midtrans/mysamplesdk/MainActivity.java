@@ -17,11 +17,14 @@ import com.midtrans.sdk.corekit.models.ItemDetails;
 import com.midtrans.sdk.corekit.models.UserAddress;
 import com.midtrans.sdk.corekit.models.UserDetail;
 import com.midtrans.sdk.corekit.models.snap.CreditCard;
+import com.midtrans.sdk.corekit.models.snap.Installment;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements TransactionFinishedCallback {
@@ -68,7 +71,18 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
 //        this methode deprecated use setAuthentication instead
 //        creditCard.setSecure(true); // when using one click must be true, for normal and two click (optional)
 
-        creditCard.setAuthentication(CreditCard.AUTHENTICATION_TYPE_3DS);
+        creditCard.setSecure(true);
+        Installment installment = new Installment();
+
+        Map<String, ArrayList<Integer>> bankTerms = new HashMap<>();
+
+        ArrayList<Integer> term = new ArrayList<>();
+        term.add(3);
+        term.add(6);
+        //set bank and term
+        bankTerms.put("bni", term);
+        installment.setTerms(bankTerms);
+        creditCard.setInstallment(installment);
 
 //         noted !! : channel migs is needed if bank type is BCA, BRI or MyBank
 //        creditCard.setChannel(CreditCard.MIGS); //set channel migs
