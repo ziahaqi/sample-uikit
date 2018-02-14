@@ -11,6 +11,7 @@ android {
     }
 
     compileSdkVersion 27
+
     buildToolsVersion '27.0.2'
     defaultConfig {
         applicationId "midtrans.mysamplesdk"
@@ -34,6 +35,18 @@ repositories {
     jcenter()
     // Add the midtrans repository into the list of repositories
     maven { url "https://dl.bintray.com/pt-midtrans/maven" }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -47,7 +60,11 @@ dependencies {
 
     //for production app you need to compile sdk production `com.midtrans:uikit:x.x.x`
 //    compile 'com.midtrans:uikit:1.9.3' //  sample compiling production or
-    compile 'com.midtrans:uikit:1.14.0' // sample compiling sandbox
+    compile 'com.midtrans:uikit:1.15.0-SANDBOX' // sample compiling sandbox
 
+    compile ('com.squareup.picasso:picasso:2.5.2'){
+        exclude group: 'com.squareup.okhttp3'
+    }
+//    compile(name:'uikit-development-release', ext:'aar')
 
 }

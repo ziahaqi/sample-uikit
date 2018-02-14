@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
@@ -20,6 +21,7 @@ import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.Installment;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
     private Button buttonUiKit, buttonDirectCreditCard, buttonDirectBcaVa, buttonDirectMandiriVa,
             buttonDirectBniVa, buttonDirectAtmBersamaVa, buttonDirectPermataVa;
 
+    private ImageView imageLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         // SDK initiation for UIflow
         initMidtransSdk();
         initActionButtons();
+        bindData();
+    }
+
+    private void bindData() {
+        Picasso.with(this).load(R.drawable.ic_launcher).into(imageLauncher);
     }
 
 
@@ -174,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
         buttonDirectPermataVa = (Button) findViewById(R.id.button_direct_permata_va);
         buttonDirectAtmBersamaVa = (Button) findViewById(R.id.button_direct_atm_bersama_va);
 
+        imageLauncher = findViewById(R.id.image_launcher);
     }
 
     private void initActionButtons() {
