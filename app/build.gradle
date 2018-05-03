@@ -10,12 +10,12 @@ android {
         }
     }
 
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
     defaultConfig {
         applicationId "com.tingtong.android"
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdkVersion 15
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,20 +34,22 @@ repositories {
     jcenter()
     // Add the midtrans repository into the list of repositories
     maven { url "https://dl.bintray.com/pt-midtrans/maven" }
+    maven { url "https://jitpack.io" }
+
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:27.0.2'
     testCompile 'junit:junit:4.12'
 
     //--add midtrans sdk--
 
     //for production app you need to compile sdk production `com.midtrans:uikit:x.x.x`
 //    compile 'com.midtrans:uikit:1.9.3' //  sample compiling production or
-    compile 'com.midtrans:uikit:1.11.0' // sample compiling sandbox
+    compile 'com.midtrans:uikit:1.18.0-SANDBOX' // sample compiling sandbox
 
 
 }

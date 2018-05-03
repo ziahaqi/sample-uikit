@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.midtrans.sdk.corekit.callback.CardRegistrationCallback;
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.corekit.core.PaymentMethod;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
 import com.midtrans.sdk.corekit.core.themes.CustomColorTheme;
 import com.midtrans.sdk.corekit.models.BankType;
+import com.midtrans.sdk.corekit.models.CardRegistrationResponse;
 import com.midtrans.sdk.corekit.models.CustomerDetails;
 import com.midtrans.sdk.corekit.models.ItemDetails;
 import com.midtrans.sdk.corekit.models.snap.CreditCard;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements TransactionFinishedCallback {
     private Button buttonUiKit, buttonDirectCreditCard, buttonDirectBcaVa, buttonDirectMandiriVa,
             buttonDirectBniVa, buttonDirectAtmBersamaVa, buttonDirectPermataVa;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +41,18 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
     private TransactionRequest initTransactionRequest() {
         // Create new Transaction Request
         TransactionRequest transactionRequestNew = new
-                TransactionRequest(System.currentTimeMillis() + "", 6000);
+                TransactionRequest(System.currentTimeMillis() + "", 20000);
 
         //set customer details
         transactionRequestNew.setCustomerDetails(initCustomerDetails());
 
 
         // set item details
-        ItemDetails itemDetails = new ItemDetails("1", 1000, 1, "Trekking Shoes");
-        ItemDetails itemDetails1 = new ItemDetails("2", 1000, 2, "Casual Shoes");
-        ItemDetails itemDetails2 = new ItemDetails("3", 1000, 3, "Formal Shoes");
+        ItemDetails itemDetails = new ItemDetails("1", 20000, 1, "Trekking Shoes");
 
         // Add item details into item detail list.
         ArrayList<ItemDetails> itemDetailsArrayList = new ArrayList<>();
         itemDetailsArrayList.add(itemDetails);
-        itemDetailsArrayList.add(itemDetails1);
-        itemDetailsArrayList.add(itemDetails2);
         transactionRequestNew.setItemDetails(itemDetailsArrayList);
 
 
@@ -151,7 +150,23 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
             @Override
             public void onClick(View v) {
                 MidtransSDK.getInstance().setTransactionRequest(initTransactionRequest());
-                MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.CREDIT_CARD);
+                MidtransSDK.getInstance().UiCardRegistration(MainActivity.this, new CardRegistrationCallback() {
+                    @Override
+                    public void onSuccess(CardRegistrationResponse cardRegistrationResponse) {
+                        Toast.makeText(MainActivity.this, "register card token success", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(CardRegistrationResponse cardRegistrationResponse, String s) {
+                        Toast.makeText(MainActivity.this, "register card token Failed", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+                });
             }
         });
 
@@ -197,5 +212,8 @@ public class MainActivity extends AppCompatActivity implements TransactionFinish
                 MidtransSDK.getInstance().startPaymentUiFlow(MainActivity.this, PaymentMethod.BCA_KLIKPAY);
             }
         });
+
     }
+
+
 }
